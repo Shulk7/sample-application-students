@@ -12,3 +12,24 @@ before_install:
 # Run Unit Test and Integration Tests
 script:
   - mvn verify
+
+# Cache the .m2 folder to prevent redownloading dependencies on each build
+cache:
+  directories:
+  - "$HOME/.m2/repository"
+
+# Environment variables are strings (double quotes)
+# Example:
+# - secure: "DpR1th9rZvLMX0......"
+env:
+  global:
+    - secure: avpwpU3LGrlBKPZLVOBbLZEM6Mm4YSgmk
+ZPCOAW82dP6OMAB4zUXB/q+mzX/PBCFflYDAixgDCv3acU9xBTnwwvBQQAlUyMJJtl7DBBU4SSY6YTLZ7Rt5l/G7BQo/TgZEQxsZWH+o4NumNs8jy9txn4QzXuZY69tJjhl1OZmhfnRseIfRQPehgfycsf6p5tzOHdu7vB/sMcNouDhPLMjTy8ZeyVqnqSEXDu0vpYP60d+dFKjjG1qmyBG3lchFiibU7ppNbybnBklAQBRbXWGS3qCf3NuE8Z2+d1ZXQYxzQEeT/qdT0g4JWaUj89ICkDS857GmD8Y1RcWsSa5duPLZ7e0o7E41WzAO/VmU7+khr5mZ5sUwXjAhCPk3M1Q1XdcbnzkztoYePDNoFReQjTfmuY/VXwB/rxbwS9VwOAH1MM36LzmmyvqSOg76/np3ephNyWeNnXlvEhL5o2Y0C9YwxFTVuig3GbTjhttIP5R2WI8RfSi/9aMkUYDxJsWnxbf5g8dk6gZmz6ErsGUNNx3tRjbqPaGt393CsDbGlMj8SHoLKkGbzDyLI8QVNE+p/obgPc3I29hrnPRunPzFQdSNeuaM8ae6ugZXHFI03hE9BD+iprAZbq00ufsJu7zKJulE5Ig3M+irk65m23lcFlvi1r2hY6ALKpi8Y6nzpFZRwA=
+
+mvn sonar:sonar \
+  -Dsonar.projectKey=Shulk7_sample-application-students \
+  -Dsonar.organization=shulk7-github \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.login=5ff0b697de459f4fd9e786f1a5172df28eaa0ae9
+
+
