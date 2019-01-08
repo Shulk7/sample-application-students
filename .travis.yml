@@ -1,35 +1,31 @@
 language: java
 jdk: oraclejdk8
-
-# Define the services to use
 services:
-  - docker
-
+- docker
 before_install:
-  - sudo service mysql stop
-  - docker pull takimatraining/devops-training-db
-  - docker run -d -p 127.0.0.1:3306:3306 takimatraining/devops-training-db
-# Run Unit Test and Integration Tests
+- openssl aes-256-cbc -K $encrypted_b296f248f880_key -iv $encrypted_b296f248f880_iv
+  -in id_rsa_insa_training.enc -out ~\/.ssh/id_rsa_insa_training -d
+- sudo service mysql stop
+- docker pull takimatraining/devops-training-db
+- docker run -d -p 127.0.0.1:3306:3306 takimatraining/devops-training-db
 script:
-  - mvn verify
-
-# Cache the .m2 folder to prevent redownloading dependencies on each build
+- mvn sonar:sonar \ -Dsonar.projectKey=Shulk7_sample-application-students \ -Dsonar.organization=shulk7-github
+  \ -Dsonar.host.url=https://sonarcloud.io \ -Dsonar.login=5ff0b697de459f4fd9e786f1a5172df28eaa0ae9
 cache:
   directories:
   - "$HOME/.m2/repository"
-
-# Environment variables are strings (double quotes)
-# Example:
-# - secure: "DpR1th9rZvLMX0......"
 env:
   global:
-    - secure: avpwpU3LGrlBKPZLVOBbLZEM6Mm4YSgmk
-ZPCOAW82dP6OMAB4zUXB/q+mzX/PBCFflYDAixgDCv3acU9xBTnwwvBQQAlUyMJJtl7DBBU4SSY6YTLZ7Rt5l/G7BQo/TgZEQxsZWH+o4NumNs8jy9txn4QzXuZY69tJjhl1OZmhfnRseIfRQPehgfycsf6p5tzOHdu7vB/sMcNouDhPLMjTy8ZeyVqnqSEXDu0vpYP60d+dFKjjG1qmyBG3lchFiibU7ppNbybnBklAQBRbXWGS3qCf3NuE8Z2+d1ZXQYxzQEeT/qdT0g4JWaUj89ICkDS857GmD8Y1RcWsSa5duPLZ7e0o7E41WzAO/VmU7+khr5mZ5sUwXjAhCPk3M1Q1XdcbnzkztoYePDNoFReQjTfmuY/VXwB/rxbwS9VwOAH1MM36LzmmyvqSOg76/np3ephNyWeNnXlvEhL5o2Y0C9YwxFTVuig3GbTjhttIP5R2WI8RfSi/9aMkUYDxJsWnxbf5g8dk6gZmz6ErsGUNNx3tRjbqPaGt393CsDbGlMj8SHoLKkGbzDyLI8QVNE+p/obgPc3I29hrnPRunPzFQdSNeuaM8ae6ugZXHFI03hE9BD+iprAZbq00ufsJu7zKJulE5Ig3M+irk65m23lcFlvi1r2hY6ALKpi8Y6nzpFZRwA=
-
-mvn sonar:sonar \
-  -Dsonar.projectKey=Shulk7_sample-application-students \
-  -Dsonar.organization=shulk7-github \
-  -Dsonar.host.url=https://sonarcloud.io \
-  -Dsonar.login=5ff0b697de459f4fd9e786f1a5172df28eaa0ae9
-
-
+  - secure: hbwlcTEIiuq3aOBQB+eCajLKoZfg7TfV8AnTu/qPqFz9C6INPvrpQ0aS6s/edGgwcXa44L3MojFlCru4NzYdun3Qq3zZIctllQMMMPV+vI76dNh792+TauLDgfAoBlXFtUA7WqPFLnama01bldMlz24DzHcOklXARMqz7xI7vR8MNtLFaGXMYU6b20QOrI7zr0mF719EertoJSFwNtKdwJSPLf484XnEMSiLxDxtLol59nNk/qerQluOtqlemiZVDEHY60ASIIdcJF6G9X0i9EPYBKMTKrlra+hBTCT/TdYDbaPNqTAlcHcJd8hFKxl1zEKm5apgEWvF70YA6mV9jPxnbWPQoHI9scsBtKgBl5Syy8WyecKqJnMHAzUHGr4ILahP7M9gftAe6+k/DEubSDS+nYw02CnkJey6LMyoUEUgry2AIxFTL9ATTKRa4vOPLEADI1GrGS0UCZAE1bcj15CG3OdI2rxlcS1tyCTNWtoPvd14ro7KDuJpfJ1ZR62WodOUxQaWnP324ROyAlvNRsVT2q5bILiRANjA1JAUH66kLGTD6gX9kgJEzDuz2n/K0CVIoaz6nWfnkgg4rJNkvbWeoXziamOQpJRtDW3lUGb1tFAZwyH33G2HWuKNFWqiHWx3CLU3HMLQw4oxQd330gZ7QWP02/810tgEIDnPm8w=
+  - secure: yQNfqb7wt0ZU0ro0B1dzdpdx1o650AdeXeCM4j/aHWizmg0aFo7cbYT6FaGK+S0rbbbQqgoK3YyLyziV5irYOqJQclY/G0CUBhi53XUoJWqX8BsTFgmxKADPne2QsUXCiDZjnjwzPyhqrszE8Ik7PynsDNR9mEHiNHXBfDVVdZZ0x440m0IjS8OEexcWrWkb2MY7n5Mmr0B7CsxeG7SioHsKAluUGTt2aaOAIC6shNFd4r4lTUiVmCSNZ2OTZMhjCmDzAWR+W9pHhTeHW/92x/LO1DVDUvGhUCgsPNGmqYUt6gKFYq72Io2UTbmRdJ49pc9uLKox1bLVaMKU1S8XVnehJ0CD6HvSCriK0Xsh+mNbU3knOl1ugKmgtG/sHwgsJL0Qr4VLxXJZAxXIyS/i101IToDJlGPY1khslttiCgW5aFl1/sxRDRa7EyptWF23qNtNm5A4KI23GQU/6ts6cJ+E/+H5hNRVOzz510O3tJCG/PPliHBOmEzOaD/PazLRN1lSb7WT6Moj9mSS6Hd3JbZBm0/i7o9dDU7cqjNxZvhy7CFYskEr8ZWxA9dQcaOAw0z/XyCsQybfVWWLIuF0uKNchZ3GNcSxHIim/nzCb2lyLgYDEsvQbn7ykumvpJb7Dc1xB8ritvBl+1LrgJL5cf7gImor2UQq6ai6e9oWAgg=
+notifications:
+  email:
+    on_failure: always
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH;
+  fi`
+- export IMAGE_NAME=takimatraining/sample-application
+- docker build -t $IMAGE_NAME:$TRAVIS_COMMIT .
+- docker tag $IMAGE_NAME:$TRAVIS_COMMIT $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME:$TAG
